@@ -18,7 +18,7 @@ A RESTful API built with Flask, PostgreSQL, and JWT-based authentication. The ap
 
 ## ⚙️ Setup Instructions
 
-### 1. Clone the repository
+### Clone the repository
 
 Run the following commands in your terminal:
 
@@ -26,9 +26,9 @@ Run the following commands in your terminal:
 https://github.com/aykhanko/FLASK-API-BookVerseAPI-DB-PostgreSQL.git
 cd FLASK-API-BookVerseAPI-DB-PostgreSQL
 ```
-### 2. Create a .env file
+### Your .env file
 
-Create a .env file in the project root and fill in the following values:
+Your .env file in the project root and fill in the following values:
 
 ```bash
 FLASK_APP=main
@@ -38,7 +38,36 @@ JWT_SECRET_KEY = YOUR_SECRET_KEY
 
 DATABASE_URL = postgresql://YOUR_NAME:YOUR_PASSWORD@db:5432/YOUR_DB_NAME
 ```
-### 3. Build and start the application
+Your docker-compose.yml defines two services:
+
+```bash
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      - db    
+
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: YOUR_NAME
+      POSTGRES_PASSWORD: YOUR_PASSWORD
+      POSTGRES_DB: YOUR_DB_NAME
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+
+```
+
+### Build and start the application
 
 Make sure Docker and Docker Compose are installed, then run:
 ```bash
@@ -107,34 +136,6 @@ The following endpoints are available at:
 You can access it at: [http://localhost:5000/swagger-ui](http://localhost:5000/swagger-ui)
 ### 🐘 Docker Compose Overview
 
-Your docker-compose.yml defines two services:
-
-```bash
-services:
-  web:
-    build: .
-    ports:
-      - "5000:5000"
-    env_file:
-      - .env
-    depends_on:
-      - db    
-
-  db:
-    image: postgres:17
-    environment:
-      POSTGRES_USER: YOUR_NAME
-      POSTGRES_PASSWORD: YOUR_PASSWORD
-      POSTGRES_DB: YOUR_DB_NAME
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:
-
-```
 ### 🛡️ Environment Variables Summary
 
 | Variable         | Description                                              |
